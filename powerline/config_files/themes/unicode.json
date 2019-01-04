@@ -61,6 +61,9 @@
 		"powerline.segments.common.sys.uptime": {
 			"before": "⇑  "
 		},
+		"powerline.segments.common.sys.k8s_cluster": {
+			"before": "☸  "
+		},
 		"powerline.segments.common.mail.email_imap_alert": {
 			"before": "✉ "
 		},

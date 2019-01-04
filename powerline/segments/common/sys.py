@@ -3,6 +3,8 @@ from __future__ import (unicode_literals, division, absolute_import, print_funct
 
 import os
 
+import subprocess
+
 from multiprocessing import cpu_count as _cpu_count
 
 from powerline.lib.threaded import ThreadedSegment
@@ -14,7 +16,7 @@ cpu_count = None
 
 
 def system_load(pl, format='{avg:.1f}', threshold_good=1, threshold_bad=2,
-                track_cpu_count=False, short=False):
+				track_cpu_count=False, short=False):
 	'''Return system load average.
 
 	Highlights using ``system_load_good``, ``system_load_bad`` and
@@ -66,7 +68,7 @@ def system_load(pl, format='{avg:.1f}', threshold_good=1, threshold_bad=2,
 		})
 
 		if short:
-		    return ret
+			return ret
 
 	ret[0]['contents'] += ' '
 	ret[1]['contents'] += ' '
@@ -151,33 +153,33 @@ else:
 
 @add_divider_highlight_group('background:divider')
 def uptime(pl, days_format='{days:d}d', hours_format=' {hours:d}h', minutes_format=' {minutes:d}m', seconds_format=' {seconds:d}s', shorten_len=3):
-	'''Return system uptime.
+	command = subprocess.run(['kubectl', 'config', 'current-context'], stdout=subprocess.PIPE)
+	result_str = str(command.stdout.strip(), 'utf-8')
+	# return result_str
+	if 'dev-cluster' in result_str:
+		return 'dev-cluster'
+	elif 'global-platform' in result_str:
+		return 'global-platform'
+	elif 'prod-cluster' in result_str:
+		return 'prod-cluster'
+	elif 'integration' in result_str:
+		return 'integration'
+	else:
+		return result_str
 
-	:param str days_format:
-		day format string, will be passed ``days`` as the argument
-	:param str hours_format:
-		hour format string, will be passed ``hours`` as the argument
-	:param str minutes_format:
-		minute format string, will be passed ``minutes`` as the argument
-	:param str seconds_format:
-		second format string, will be passed ``seconds`` as the argument
-	:param int shorten_len:
-		shorten the amount of units (days, hours, etc.) displayed
 
-	Divider highlight group used: ``background:divider``.
-	'''
-	try:
-		seconds = _get_uptime()
-	except NotImplementedError:
-		pl.warn('Unable to get uptime. You should install psutil module')
-		return None
-	minutes, seconds = divmod(seconds, 60)
-	hours, minutes = divmod(minutes, 60)
-	days, hours = divmod(hours, 24)
-	time_formatted = list(filter(None, [
-		days_format.format(days=days) if days and days_format else None,
-		hours_format.format(hours=hours) if hours and hours_format else None,
-		minutes_format.format(minutes=minutes) if minutes and minutes_format else None,
-		seconds_format.format(seconds=seconds) if seconds and seconds_format else None,
-	]))[0:shorten_len]
-	return ''.join(time_formatted).strip()
+@add_divider_highlight_group('background:divider')
+def k8s_cluster(pl):
+	command = subprocess.run(['kubectl', 'config', 'current-context'], stdout=subprocess.PIPE)
+	result_str = str(command.stdout.strip(), 'utf-8')
+	# return result_str
+	if 'dev-cluster' in result_str:
+		return 'dev-cluster'
+	elif 'global-platform' in result_str:
+		return 'global-platform'
+	elif 'prod-cluster' in result_str:
+		return 'prod-cluster'
+	elif 'integration' in result_str:
+		return 'integration'
+	else:
+		return result_str

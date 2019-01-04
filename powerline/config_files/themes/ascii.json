@@ -62,6 +62,9 @@
 		"powerline.segments.common.sys.uptime": {
 			"before": "UP  "
 		},
+		"powerline.segments.common.sys.k8s_cluster": {
+			"before": " "
+		},
 		"powerline.segments.common.mail.email_imap_alert": {
 			"before": "MAIL "
 		},

@@ -23,6 +23,7 @@
 		"weather_condition_snowy":    { "fg": "skyblue1", "bg": "gray0", "attrs": [] },
 		"weather_condition_rainy":    { "fg": "skyblue1", "bg": "gray0", "attrs": [] },
 		"uptime":                     { "fg": "gray8", "bg": "gray0", "attrs": [] },
+		"k8s_cluster":                { "fg": "gray8", "bg": "mediumorange", "attrs": [] },
 		"external_ip":                { "fg": "gray8", "bg": "gray0", "attrs": [] },
 		"internal_ip":                { "fg": "gray8", "bg": "gray0", "attrs": [] },
 		"network_load":               { "fg": "gray8", "bg": "gray0", "attrs": [] },
